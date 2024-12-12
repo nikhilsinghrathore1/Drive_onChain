@@ -19,4 +19,14 @@ export const hashedPassword = async(password:string)=>{
 }
 
 
+export const comparePassword = async(password:string , stored_password:string) =>{
+               try{
+                              const compare = await bcrypt.compare(stored_password , password)
+                              return compare
+               }
+               catch(err){
+                              console.log("something went wrong while comparing the passwords" , err)
+               }
+}
+
 

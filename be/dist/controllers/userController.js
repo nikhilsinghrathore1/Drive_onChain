@@ -9,13 +9,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RegisterUser = void 0;
+exports.LoginUser = exports.RegisterUser = void 0;
 const db_1 = require("../db/db");
 const express_validator_1 = require("express-validator");
 const passwordHashing_1 = require("../utils/passwordHashing");
 const userService_1 = require("../services/userService");
 const genToken_1 = require("../utils/genToken");
-const RegisterUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+// register user route 
+const RegisterUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const error = (0, express_validator_1.validationResult)(req);
     if (!error.isEmpty()) {
         res.status(400).json({ error: error.array() });
@@ -39,3 +40,29 @@ const RegisterUser = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     res.status(200).json({ user, token: token });
 });
 exports.RegisterUser = RegisterUser;
+// login user route 
+const LoginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const error = (0, express_validator_1.validationResult)(req);
+    if (!error.isEmpty()) {
+        res.status(400).json({ error: error.array() });
+    }
+    const { firstName, lastname, password, email } = req.body;
+    console.log(email);
+    const user = yield db_1.prisma.user.findFirst({ where: {
+            email: email
+        } });
+    if (!user) {
+        res.status(400).json({ msg: "the user doesn't exists" });
+    }
+    const stored_password = user === null || user === void 0 ? void 0 : user.password;
+    const checked_password = yield (0, passwordHashing_1.comparePassword)(stored_password || "", password);
+    console.log(checked_password);
+    if (!checked_password) {
+        res.status(400).json({ msg: "incorrect password" });
+    }
+    else {
+        const token = (0, genToken_1.createToken)({ firstName, email, password });
+        res.status(200).json({ user, token });
+    }
+});
+exports.LoginUser = LoginUser;

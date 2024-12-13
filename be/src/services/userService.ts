@@ -30,7 +30,6 @@ export const CreateBlackListToken = async(token:string)=>{
                               throw new Error("the token not provided for blacklisting")
                }
                try{
-
                               const blacklistedToken = await prisma.blackListToken.create({
                                              data:
                                              {

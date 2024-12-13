@@ -72,7 +72,71 @@ This endpoint allows users to log in by providing their `email` and `password`. 
   "password": "password123"
 }
 
+```
 
-// created both routes for the login and register the req and res logic in written in the controller file and the database call are done in the service section and the password hashing password comparing and token generation is done in the utils folder and they are called in the route folder in the userRouter file 
 
-// now have to create a logout controller for that one more model is created that is blacklikst model that will store the blacklisted token and thier createdAt time 
+## **get_user_Profile API Endpoint**
+
+
+This API endpoint retrieves the authenticated user's profile information.
+
+## Endpoint Details
+
+- **URL**: `/user/profile`
+- **Method**: `GET`
+- **Authentication Required**: Yes (Bearer Token)
+
+## Description
+
+This endpoint returns the profile information of the currently authenticated user. The `req.user` object is populated by middleware, typically after verifying the user's identity.
+
+
+### Headers
+
+- **`Authorization`**: Bearer token for authenticating the user.
+
+### Example Request
+
+### **Example Request Body:**
+
+```json
+{
+    "user": {
+        "id": "12345",
+        "name": "John Doe",
+        "email": "john.doe@example.com"
+    }
+}
+
+
+```
+## **Logout User Endpoint**
+
+This API endpoint logs out the authenticated user by clearing the authentication token and blacklisting it.
+
+## Endpoint Details
+
+- **URL**: `/logout`
+- **Method**: `GET`
+- **Authentication Required**: Yes (Bearer Token)
+
+## Description
+
+The endpoint clears the authentication token from the user's cookies and blacklists the token to prevent further use. If the token is not provided, it returns an error response.
+
+## Middleware
+
+- **`checkToken`**: Middleware to verify the validity of the token before processing the request.
+
+## Request
+
+### Headers
+
+- **`Authorization`**: Bearer token for authenticating the user.
+
+### Example Request
+
+```http
+GET /logout HTTP/1.1
+Host: api.example.com
+Authorization: Bearer <your_token_here>

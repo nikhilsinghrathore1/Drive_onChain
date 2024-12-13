@@ -18,7 +18,6 @@ export const RegisterUser =async (req:Request,res:Response) =>{
                               }
                              const {firstName , lastName , email ,  password} = req.body
                               
-                              console.log(firstName  , lastName , email , password)
 
                               
 
@@ -82,7 +81,6 @@ else{
                const stored_password = user?.password;
 
                const checked_password = await comparePassword(stored_password || "" , password)
-               console.log(checked_password); 
 
                if(!checked_password){
                               res.status(400).json({msg:"incorrect password"})

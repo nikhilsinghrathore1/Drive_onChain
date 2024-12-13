@@ -1,10 +1,10 @@
 import { prisma } from "../db/db";
-import { Request,Response,NextFunction } from "express";
+import { Request,Response } from "express";
 import {validationResult} from "express-validator"
 import { comparePassword, hashedPassword } from "../utils/passwordHashing";
-import { storeUser } from "../services/userService";
+import { CreateBlackListToken, storeUser } from "../services/userService";
 import { createToken } from "../utils/genToken";
-import { keccak256 } from "ethers";
+import { toNumber } from "ethers";
 
 
 
@@ -41,10 +41,16 @@ export const RegisterUser =async (req:Request,res:Response) =>{
                               // have to store the user information in the database; 
                               const user = await storeUser(firstName,lastName || "", email, hashed_password || password , )       
 
+                              if(user){
 
-                              // have to generate the jsonwebtoken for it now
-                              const token =  createToken({firstName,email, password});
-                              res.status(200).json({user , token:token})
+                                             
+                                             // have to generate the jsonwebtoken for it now
+                                             const token =  createToken(user.id);
+                                             res.status(200).json({user , token:token})
+                              }
+                              else{
+                                             res.status(400).json({msg:"there was some issue while creating the user"})
+                              }
                }
 }              
 
@@ -53,14 +59,14 @@ export const RegisterUser =async (req:Request,res:Response) =>{
 
 export const LoginUser = async(req:Request , res:Response)=>{
                const error = validationResult(req) ; 
-               
+        
                if(!error.isEmpty()){
                               res.status(400).json({error:error.array()})
                }
 else{
 
 
-               const {firstName , lastname , password , email} = req.body; 
+               const {password , email} = req.body; 
                console.log(email)
                const user = await prisma.user.findFirst({where:{
                               email:email 
@@ -84,7 +90,10 @@ else{
                else{
 
                               
-                              const token = createToken({firstName,email,password});
+                              const token = createToken(user.id);
+
+                              res.cookie('token', token);
+
                               
                               res.status(200).json({user,token})
                }
@@ -93,3 +102,25 @@ else{
 
 }
 
+// get user profile 
+
+export const getUserProfile = (req:Request,res:Response)=>{
+               res.status(200).json({user : req.user})
+}
+  
+
+export const logoutUser = async(req:Request ,res:Response)=>{
+               res.clearCookie("token")
+               const token = req.headers.authorization?.split(" ")[1]
+               if(!token){
+                              res.status(400).json({msg:"token not present "})
+                              return ; 
+               }
+               else{
+
+                              const blacklistedToken = await CreateBlackListToken(token)
+
+                              res.status(200).json({blacklistedToken , msg:"logged out"})
+               }
+
+}

@@ -19,3 +19,9 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model BlackListToken{
+  id Int @id @default(autoincrement())
+  token String 
+  createdAt DateTime @default(now())
+}

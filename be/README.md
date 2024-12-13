@@ -38,7 +38,7 @@ This API endpoint allows new users to register by providing their details, which
 
 
 
-## **LoginUser` API Endpoint**
+## **LoginUser API Endpoint**
 
 ## **Description**
 This endpoint allows users to log in by providing their `email` and `password`. If the credentials are valid, a JWT token is generated and returned along with the user details. Otherwise, appropriate error messages are returned.
@@ -71,3 +71,8 @@ This endpoint allows users to log in by providing their `email` and `password`. 
   "email": "john.doe@example.com",
   "password": "password123"
 }
+
+
+// created both routes for the login and register the req and res logic in written in the controller file and the database call are done in the service section and the password hashing password comparing and token generation is done in the utils folder and they are called in the route folder in the userRouter file 
+
+// now have to create a logout controller for that one more model is created that is blacklikst model that will store the blacklisted token and thier createdAt time 

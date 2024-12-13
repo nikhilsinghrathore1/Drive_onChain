@@ -1,9 +1,10 @@
 import express from "express"
 import { body } from "express-validator"
-import { LoginUser, RegisterUser } from "../controllers/userController"
+import { getUserProfile, LoginUser, logoutUser, RegisterUser } from "../controllers/userController"
+import checkToken from "../middleware/CheckToken"
 const router = express.Router()
 
-
+           
 
 router.post("/register",[
                body("email").isEmail().withMessage("invalid email"),
@@ -21,6 +22,10 @@ router.post("/login",[
 ],
                LoginUser
 )
+
+router.get("/profile", checkToken ,getUserProfile)
+
+router.get("/logout" ,checkToken, logoutUser)
 
 
 export default router; 

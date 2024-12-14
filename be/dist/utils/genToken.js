@@ -8,7 +8,6 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const secret = process.env.SECRET || "token";
 const createToken = (id) => {
     const token = jsonwebtoken_1.default.sign({ id }, secret);
-    console.log("this is the internal token ", token);
     return token;
 };
 exports.createToken = createToken;

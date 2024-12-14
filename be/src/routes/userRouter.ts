@@ -1,7 +1,7 @@
 import express from "express"
 import { body } from "express-validator"
 import { getUserProfile, LoginUser, logoutUser, RegisterUser } from "../controllers/userController"
-import checkToken from "../middleware/CheckToken"
+import { checkToken } from "../middleware/CheckToken"
 const router = express.Router()
 
            

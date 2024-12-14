@@ -45,7 +45,9 @@ export const RegisterUser =async (req:Request,res:Response) =>{
                                              
                                              // have to generate the jsonwebtoken for it now
                                              const token =  createToken(user.id);
+                                             res.cookie("token" , token)
                                              res.status(200).json({user , token:token})
+
                               }
                               else{
                                              res.status(400).json({msg:"there was some issue while creating the user"})
@@ -106,6 +108,8 @@ export const getUserProfile = (req:Request,res:Response)=>{
                res.status(200).json({user : req.user})
 }
   
+
+// logout route for the user 
 
 export const logoutUser = async(req:Request ,res:Response)=>{
                res.clearCookie("token")

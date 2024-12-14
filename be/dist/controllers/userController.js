@@ -22,7 +22,6 @@ const RegisterUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(400).json({ error: error.array() });
     }
     const { firstName, lastName, email, password } = req.body;
-    console.log(firstName, lastName, email, password);
     const isAlreadyUser = yield db_1.prisma.user.findFirst({
         where: {
             email: email
@@ -39,6 +38,7 @@ const RegisterUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         if (user) {
             // have to generate the jsonwebtoken for it now
             const token = (0, genToken_1.createToken)(user.id);
+            res.cookie("token", token);
             res.status(200).json({ user, token: token });
         }
         else {
@@ -65,7 +65,6 @@ const LoginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         else {
             const stored_password = user === null || user === void 0 ? void 0 : user.password;
             const checked_password = yield (0, passwordHashing_1.comparePassword)(stored_password || "", password);
-            console.log(checked_password);
             if (!checked_password) {
                 res.status(400).json({ msg: "incorrect password" });
             }
@@ -83,6 +82,7 @@ const getUserProfile = (req, res) => {
     res.status(200).json({ user: req.user });
 };
 exports.getUserProfile = getUserProfile;
+// logout route for the user 
 const logoutUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     res.clearCookie("token");

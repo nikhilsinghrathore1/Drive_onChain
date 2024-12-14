@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Captain" ALTER COLUMN "ltd" DROP NOT NULL,
+ALTER COLUMN "lng" DROP NOT NULL;

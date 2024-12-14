@@ -1,0 +1,1 @@
+<!-- the home page is complete now making the register page this will be the first page to send api request  -->

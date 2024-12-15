@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
+import logo from "../../public/logo.png"
 
 const Home = () => {
+
+
   return (
     <div className='w-full h-screen flex flex-col justify-between'>
       <div className='relative w-full overflow-hidden h-[80%] bg-red-50'>
@@ -11,11 +14,8 @@ const Home = () => {
         />
 
         <div className='absolute py-10 px-7 top-0 left-0 bg-gradient-to-b from-black/20 via-transparent to-transparent w-full h-full'>
-          <img
-            className='w-24'
-            src="https://cdn-assets-eu.frontify.com/s3/frontify-enterprise-files-eu/eyJwYXRoIjoid2VhcmVcL2ZpbGVcLzhGbTh4cU5SZGZUVjUxYVh3bnEyLnN2ZyJ9:weare:F1cOF9Bps96cMy7r9Y2d7affBYsDeiDoIHfqZrbcxAw?width=1200&height=417"
-            alt="not showing"
-          />
+        <img className='w-24 scale-150' src={logo} alt="not showign" />
+
         </div>
       </div>
 
@@ -28,6 +28,8 @@ const Home = () => {
       </div>
     </div>
   );
+
+  
 };
 
 export default Home;

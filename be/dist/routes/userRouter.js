@@ -11,7 +11,7 @@ const router = express_1.default.Router();
 router.post("/register", [
     (0, express_validator_1.body)("email").isEmail().withMessage("invalid email"),
     (0, express_validator_1.body)("firstName").isLength({ min: 3 }).withMessage("the first name should be minimum of 3 character"),
-    (0, express_validator_1.body)("password").isLength({ min: 6 }).matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage("the password should be 6 characters long")
+    (0, express_validator_1.body)("password").isLength({ min: 6 }).withMessage("the password should be 6 characters long")
 ], userController_1.RegisterUser);
 router.post("/login", [
     (0, express_validator_1.body)("email").isEmail().withMessage("invalid email"),

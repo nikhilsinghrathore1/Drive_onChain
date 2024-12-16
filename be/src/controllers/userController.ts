@@ -15,6 +15,8 @@ export const RegisterUser =async (req:Request,res:Response) =>{
                               const error = validationResult(req)
                               if(!error.isEmpty()){
                                              res.status(400).json({error:error.array()})
+                                             return ;
+
                               }
                              const {firstName , lastName , email ,  password} = req.body
                               
@@ -29,6 +31,7 @@ export const RegisterUser =async (req:Request,res:Response) =>{
 
                               if(isAlreadyUser){
                                              res.status(400).json({msg:"user already exists"})
+                                             return ; 
                               }
                               else{
 
@@ -45,12 +48,14 @@ export const RegisterUser =async (req:Request,res:Response) =>{
                                              
                                              // have to generate the jsonwebtoken for it now
                                              const token =  createToken(user.id);
-                                             res.cookie("token" , token)
-                                             res.status(200).json({user , token:token})
+                                            
+                                             res.cookie("token" , token).status(200).json({user , token:token})
+                                             return ;
 
                               }
                               else{
                                              res.status(400).json({msg:"there was some issue while creating the user"})
+                                             return; 
                               }
                }
 }              

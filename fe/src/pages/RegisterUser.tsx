@@ -1,6 +1,10 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import axios from 'axios'
+import  { useContext, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { userDataContext } from '../context/UserContext'
 import logo from "/logo.png"
+
+
 
 
 const RegisterUser = () => {
@@ -9,19 +13,31 @@ const [lastName , setlastName] = useState("")
 const [email, setemail] = useState("")
 const [password, setpassword] = useState("")
 
-const [body ,  setbody] = useState({})
+const navigate = useNavigate()
 
-const handleSubmit = (e:React.FromEvent)=>{
+const context  = useContext(userDataContext)
+if (!context) {
+  throw new Error("UserWrapper must be used within a UserContext.Provider");
+}
+
+const {setuserdata} = context
+
+const handleSubmit = async(e:React.FromEvent)=>{
             e.preventDefault()
 
-            setbody({
+            const payload = {
               firstName:firstName,
               lastName:lastName,
               email:email,
               password:password
 
-            })
+            }
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}user/register` , payload)
 
+            if(response){
+              localStorage.setItem("token",response.data.token)
+              navigate("/user-landing") 
+            }
             setFirstName("")
             setlastName("")
             setemail("")

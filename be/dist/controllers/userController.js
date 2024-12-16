@@ -20,6 +20,7 @@ const RegisterUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const error = (0, express_validator_1.validationResult)(req);
     if (!error.isEmpty()) {
         res.status(400).json({ error: error.array() });
+        return;
     }
     const { firstName, lastName, email, password } = req.body;
     const isAlreadyUser = yield db_1.prisma.user.findFirst({
@@ -29,6 +30,7 @@ const RegisterUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     });
     if (isAlreadyUser) {
         res.status(400).json({ msg: "user already exists" });
+        return;
     }
     else {
         // now i have to hash the password 
@@ -38,11 +40,12 @@ const RegisterUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         if (user) {
             // have to generate the jsonwebtoken for it now
             const token = (0, genToken_1.createToken)(user.id);
-            res.cookie("token", token);
-            res.status(200).json({ user, token: token });
+            res.cookie("token", token).status(200).json({ user, token: token });
+            return;
         }
         else {
             res.status(400).json({ msg: "there was some issue while creating the user" });
+            return;
         }
     }
 });

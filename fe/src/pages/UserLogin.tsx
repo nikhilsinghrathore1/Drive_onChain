@@ -1,27 +1,35 @@
+import axios from 'axios'
 import React, { useState } from 'react'
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import logo from "/logo.png"
 
 const UserLogin = () => {
 
-
+  const navigate = useNavigate()
  
   const [email, setemail] = useState("")
   const [password, setpassword] = useState("")
   
   const [body ,  setbody] = useState({})
   
-  const handleSubmit = (e:React.FromEvent)=>{
+  const handleSubmit = async(e:React.FromEvent)=>{
               e.preventDefault()
   
-              setbody({
-             
+               const payload = {
                 email:email,
                 password:password
                 
-              })
+              }
   
-             
+              
+              const response = await axios.post(`${import.meta.env.VITE_BASE_URL}user/login` , payload)
+              if(!response){
+                navigate("/login")
+                return ; 
+              }
+              localStorage.setItem("token" , response.data.token)
+              navigate("/user-landing")
+
               setemail("")
               setpassword("")
   }

@@ -15,7 +15,6 @@ router.post("/register", [
 ], userController_1.RegisterUser);
 router.post("/login", [
     (0, express_validator_1.body)("email").isEmail().withMessage("invalid email"),
-    (0, express_validator_1.body)("firstName").isLength({ min: 3 }).withMessage("the firstName should be minimum of 3 characters"),
     (0, express_validator_1.body)("password").isLength({ min: 6 }).withMessage("the password should be mininmum of 6 characters")
 ], userController_1.LoginUser);
 router.get("/profile", CheckToken_1.checkToken, userController_1.getUserProfile);

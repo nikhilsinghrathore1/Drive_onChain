@@ -33,7 +33,6 @@ const UserWrapper: React.FC<UserWrapperProps> = ({ children }) => {
                console.log(err)
                navigate("/login")
     })
-console.log(userdata)
 
   }, [navigate , setuserdata]);
 

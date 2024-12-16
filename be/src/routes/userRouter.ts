@@ -17,7 +17,6 @@ router.post("/register",[
 
 router.post("/login",[
                body("email").isEmail().withMessage("invalid email"),
-               body("firstName").isLength({min:3}).withMessage("the firstName should be minimum of 3 characters"),
                body("password").isLength({min:6}).withMessage("the password should be mininmum of 6 characters")
 ],
                LoginUser

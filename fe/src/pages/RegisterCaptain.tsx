@@ -1,42 +1,49 @@
 import React, { useState } from 'react'
 import logo from "/logo.png"
 
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
+import axios from 'axios'
 
 const RegisterCaptain = () => {
-
+const navigate = useNavigate()
 const [fullName , setfullName] = useState("")
 const [email, setemail] = useState("")
 const [password, setpassword] = useState("")
 const [color, setcolor] = useState("")
 const [plateNumber, setplateNumber] = useState<number |null >(null)
 const [capacity, setcapacity] = useState<number | null>(null)
-const [vehical_type, setvehical_type] = useState("")
-const [body ,  setbody] = useState({})
+const [vehical_type, setvehical_type] = useState("car")
 
-const handleSubmit = (e:React.FromEvent)=>{
+const handleSubmit = async(e:React.FromEvent)=>{
             e.preventDefault()
 
-            setbody({
-            fullName : fullName,
+            const payload = {
+              fullName : fullName,
               email:email,
               password:password,
               color:color,
               vehical_type:vehical_type,
               plateNumber:plateNumber,
               capacity:capacity,              
-            })
+            }
+
+
+
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}captain/register`,payload)
+
+            if(response){
+              localStorage.setItem("token" , response.data.token) 
+              navigate("/captain-landing")        
+            }
 
             setfullName("")
             setcolor("")
             setcapacity(null)
             setplateNumber(null)
             setvehical_type("")
-
             setemail("")
             setpassword("")
 
-            console.log(body)
 }
 
 
@@ -82,9 +89,9 @@ const handleSubmit = (e:React.FromEvent)=>{
             <div className='w-full flex justify-between gap-5'>
             <input value={capacity || ""} onChange={(e)=>setcapacity(parseInt(e.target.value))} className='bg-[#EEEEEE] rounded-lg outline-orange-400  py-2 px-3 w-[48%]' type="number" placeholder='Vehical capacity' />
             <select value={vehical_type} onChange={(e)=>setvehical_type(e.target.value)} className='bg-[#EEEEEE] rounded-lg outline-orange-400  py-2 px-3 w-[48%]' name="cars" id="cars">
-                  <option value="volvo">Car</option>
-                  <option value="saab">Bike</option>
-                  <option value="opel">Auto</option>
+                  <option value="car">Car</option>
+                  <option value="bike">Bike</option>
+                  <option value="auto">Auto</option>
                 </select>            
              </div>
           </div>

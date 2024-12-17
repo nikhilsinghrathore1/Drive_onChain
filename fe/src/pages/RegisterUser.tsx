@@ -35,8 +35,10 @@ const handleSubmit = async(e:React.FromEvent)=>{
             const response = await axios.post(`${import.meta.env.VITE_BASE_URL}user/register` , payload)
 
             if(response){
+
               localStorage.setItem("token",response.data.token)
               navigate("/user-landing") 
+              
             }
             setFirstName("")
             setlastName("")

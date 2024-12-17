@@ -8,6 +8,8 @@ import RegisterUser from './pages/RegisterUser'
 import UserLanding from './pages/UserLanding'
 import UserLogin from './pages/UserLogin'
 import UserWrapper from './pages/UserWrapper'
+import CaptainLanding from './pages/CaptainLanding'
+import CaptainWrapper from './pages/CaptainWrapper'
 
 function App() {
 
@@ -24,8 +26,15 @@ function App() {
     <Route path ="/user-landing"  element={
       <UserWrapper>
 
-    <UserLanding/>
+           <UserLanding/>
       </UserWrapper>
+    }/>
+
+    <Route path ="/captain-landing"  element={
+      <CaptainWrapper>
+
+           <CaptainLanding/>
+      </CaptainWrapper>
     }/>
 
 </Routes>

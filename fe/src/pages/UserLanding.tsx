@@ -1,7 +1,6 @@
 import axios from 'axios'
-import  { useContext, useDebugValue, useEffect, useState , useRef } from 'react'
+import  { useState , useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { userDataContext } from '../context/UserContext'
 import logo from "/logo.png"
 import * as React from 'react'
 import { useGSAP } from '@gsap/react'
@@ -12,7 +11,10 @@ import LocationSearchPanel from '../components/LocationSearchPanel'
 import ChooseRide from '../components/ChooseRide'
 import ConfirmRide from '../components/ConfirmRide'
 import LookingForCaptian from '../components/LookingForCaptian'
-import UserPayment from '../components/UserPayment'
+
+
+
+
 
 const UserLanding = () => {
   const navigate = useNavigate()
@@ -202,10 +204,6 @@ useGSAP(()=>{
         <LookingForCaptian/>
       </div>
 
-        {/* this an absolute div that is hidden below only appears when user is needed to make payment for his confirmed trip */}
-      <div   className='w-full absolute translate-y-full   bottom-5 left-0'>
-        <UserPayment/>
-      </div>
 
     </div>
 

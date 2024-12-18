@@ -10,6 +10,7 @@ import UserLogin from './pages/UserLogin'
 import UserWrapper from './pages/UserWrapper'
 import CaptainLanding from './pages/CaptainLanding'
 import CaptainWrapper from './pages/CaptainWrapper'
+import UserRiding from './pages/UserRiding'
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
 
     <Route path ="/"  element={<Home/>}/>
     <Route path ="/login"  element={<UserLogin/>}/>
+    <Route path ="/riding"  element={<UserRiding/>}/>
     <Route path ="/register"  element={<RegisterUser/>}/>
     <Route path ="/register-captain"  element={<RegisterCaptain/>}/>
     <Route path ="/login-captain"  element={<CaptainLogin/>}/>

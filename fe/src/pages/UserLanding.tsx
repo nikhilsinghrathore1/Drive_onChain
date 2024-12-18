@@ -143,6 +143,8 @@ useGSAP(()=>{
 },[LookingForCaptainOpen])
 
 
+// one small thing left to do i have to create a riding page that user will be redirected when the ride is started the structure is already done now just have to make a page for it 
+
 
   return (
     <div className='w-full h-screen relative overflow-hidden '>
@@ -154,7 +156,7 @@ useGSAP(()=>{
     {/* map div */}
 
     <div className='w-full h-full'>
-              <img className='w-full h-full object-cover' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT37XpQGtXhxI2-3P3MHoNMtMtzuzxIcqul4Q&s" alt="not showing" />
+              <img className='w-full h-full object-cover' src="https://s.wsj.net/public/resources/images/BN-XR453_201802_M_20180228165619.gif" alt="not showing" />
     </div>
 
     {/* the enter destination div */}

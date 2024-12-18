@@ -3,6 +3,7 @@ import { ImLocation2 } from "react-icons/im"
 import { FaChevronDown } from "react-icons/fa";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri"
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 interface val {
    func1 : (value:boolean) =>void,
@@ -10,6 +11,9 @@ interface val {
 }
 
 const CaptainRideConfirmScreen:React.FC<val> = ({func1,func2}) => {
+
+   const [otp , setotp] = useState("")
+
   return (
   <div className='w-full  h-full pt-5 relative rounded-2xl bg-white flex flex-col px-2 justify-between pb-10 '> 
 
@@ -63,7 +67,7 @@ const CaptainRideConfirmScreen:React.FC<val> = ({func1,func2}) => {
                <div>
 
                   <div className=" w-full">
-                  <input  className='bg-[#EEEEEE] text-lg font-bold tracking-wide rounded-lg outline-orange-400  py-5 px-10 w-full' type="number" placeholder='Enter OTP' />
+                  <input value={otp} onChange={(e)=>setotp(e.target.value)}  className='bg-[#EEEEEE] text-lg font-bold tracking-wide rounded-lg outline-orange-400  py-5 px-10 w-full' type="number" placeholder='Enter OTP' />
 
                  </div> 
 

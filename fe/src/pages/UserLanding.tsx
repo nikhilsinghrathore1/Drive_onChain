@@ -12,9 +12,21 @@ import LocationSearchPanel from '../components/LocationSearchPanel'
 import ChooseRide from '../components/ChooseRide'
 import ConfirmRide from '../components/ConfirmRide'
 import LookingForCaptian from '../components/LookingForCaptian'
+import UserPayment from '../components/UserPayment'
 
 const UserLanding = () => {
   const navigate = useNavigate()
+  const [pickup, setpickup] = useState("")
+  const [destination, setdestination] = useState("")
+  const [panelOpen, setpanelOpen] = useState(false)
+  const [chooseRideOpen, setchooseRideOpen] = useState(false)
+  const [confirmRideOpen, setconfirmRideOpen] = useState(false)
+  const [LookingForCaptainOpen, setLookingForCaptainOpen] = useState(false)
+  const panelRef = useRef(null)
+  const panelcloseref = useRef(null)
+  const chooseRideref = useRef(null)
+  const ConfirmRideref = useRef(null)
+  const LookingForCaptainOpenref= useRef(null)
 
 
 
@@ -38,21 +50,6 @@ const handlelogout = async() =>{
     
   }
 }
-
-const [pickup, setpickup] = useState("")
-const [destination, setdestination] = useState("")
-const [panelOpen, setpanelOpen] = useState(false)
-const [chooseRideOpen, setchooseRideOpen] = useState(false)
-const [confirmRideOpen, setconfirmRideOpen] = useState(false)
-const [LookingForCaptainOpen, setLookingForCaptainOpen] = useState(false)
-const panelRef = useRef(null)
-const panelcloseref = useRef(null)
-const chooseRideref = useRef(null)
-const ConfirmRideref = useRef(null)
-const LookingForCaptainOpenref= useRef(null)
-
-
-
 const handleSubmit = async(e:React.FormEvent) =>{
   e.preventDefault()
 
@@ -145,6 +142,8 @@ useGSAP(()=>{
   }
 },[LookingForCaptainOpen])
 
+
+
   return (
     <div className='w-full h-screen relative overflow-hidden '>
       {/* this is the logo div */}
@@ -176,24 +175,39 @@ useGSAP(()=>{
             <div className='h-16 w-1 bg-black absolute top-[56%] rounded-full -translate-y-1/2 left-10'></div>
       </div>
 
+
+{/* this is absolute pannel that is hidden below only appears when user clicks on location or destination prompts  */}
       <div ref={panelRef} className='w-full h-[0%]  '>
         <LocationSearchPanel func1 = {setchooseRideOpen} func2 = {setpanelOpen} />
       </div>
+
     </div>
+
+    {/* this is the absolute div that is hidden below , only appears when user selects an Location for now it is hard coded but ig i have to maintain a state for pickup and drop off destination in this div user will choose the vehical type */}
 
       <div ref={chooseRideref} className='w-full absolute translate-y-full bottom-5 left-0'>
           <ChooseRide func1={setchooseRideOpen} func2 ={setconfirmRideOpen}/>
       </div>
+
+
+      {/* this is an absolute div that is hidden below only appears when user select and vehical it gives them clear details about thier trip and prompts them to confirm thier trip  */}
       <div ref={ConfirmRideref}  className='w-full absolute translate-y-full  bottom-5 left-0'>
         <ConfirmRide func1 ={setconfirmRideOpen} func2={setLookingForCaptainOpen}/>
       </div>
+
+      {/* this is an absolute div that is hidden below only appears when user confirms his ride and this page is a waiting screen it is shown until a captain selects this trip  */}
       <div  ref={LookingForCaptainOpenref} className='w-full absolute translate-y-full   bottom-5 left-0'>
         <LookingForCaptian/>
+      </div>
+
+        {/* this an absolute div that is hidden below only appears when user is needed to make payment for his confirmed trip */}
+      <div   className='w-full absolute translate-y-full   bottom-5 left-0'>
+        <UserPayment/>
       </div>
 
     </div>
 
   )
-}
+} 
 
 export default UserLanding

@@ -6,6 +6,8 @@ import { checkCaptainToken } from "../middleware/CheckToken"
 const router  = express.Router()
 
 
+// 
+
 router.post("/register" ,[
                body("email").isEmail().withMessage("invalid email"),
                body("fullName").isString().isLength({min:3}).withMessage("the fullname should be atleast 3 characters"),
@@ -21,9 +23,9 @@ router.post("/login" ,[
               
 ],loginCaptain)
 
-
 router.get('/profile',checkCaptainToken, getCaptainProfile)
 
 router.get("/logout",checkCaptainToken,logoutCaptain)
 
 export default router
+

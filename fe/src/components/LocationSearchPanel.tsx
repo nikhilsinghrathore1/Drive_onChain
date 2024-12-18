@@ -2,8 +2,13 @@ import * as React from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import {data} from "../../deadlock.js"
 
+interface val {
+  func1 : (value:boolean) =>void,
+  func2 : (value:boolean) =>void,
+}
 
-const LocationSearchPanel = ({ func1 , func2  }) => {
+
+const LocationSearchPanel:React.FC<val> = ({ func1 , func2  }) => {
   return (
     <div className="w-full h-full bg-white flex flex-col px-2">
       <h1 className="text-2xl pl-10 font-medium mb-5">Choose your trip.</h1>

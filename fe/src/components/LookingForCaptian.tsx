@@ -1,4 +1,3 @@
-import React from 'react'
 import { FaLocationDot } from 'react-icons/fa6'
 import { ImLocation2 } from 'react-icons/im'
 import { RiMoneyRupeeCircleFill } from 'react-icons/ri'

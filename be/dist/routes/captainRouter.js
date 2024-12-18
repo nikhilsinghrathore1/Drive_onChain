@@ -8,6 +8,7 @@ const express_validator_1 = require("express-validator");
 const captainController_1 = require("../controllers/captainController");
 const CheckToken_1 = require("../middleware/CheckToken");
 const router = express_1.default.Router();
+// 
 router.post("/register", [
     (0, express_validator_1.body)("email").isEmail().withMessage("invalid email"),
     (0, express_validator_1.body)("fullName").isString().isLength({ min: 3 }).withMessage("the fullname should be atleast 3 characters"),

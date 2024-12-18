@@ -1,6 +1,14 @@
+import * as React from "react"
 import { FaChevronDown } from "react-icons/fa6"
 
-const ChooseRide = ({func1 , func2}) => {
+
+interface val {
+  func1 : (value:boolean) =>void,
+  func2 : (value:boolean) =>void
+}
+
+
+const ChooseRide:React.FC<val> = ({func1 , func2}) => {
   return (
                <div className='w-full h-fit py-10 relative bg-white flex flex-col px-2 '>
                               <div className="absolute right-6 top-12 text-xl" onClick={()=>(func1(false))}>  <FaChevronDown/></div>

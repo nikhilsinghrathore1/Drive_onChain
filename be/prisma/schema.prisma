@@ -13,6 +13,14 @@ enum status {
  active
 }
 
+enum rideStatus {
+  pending
+  accepted 
+  ongoing
+  cancled
+  completed
+}
+
 model User {
   id Int @id @default(autoincrement())
   firstName String 
@@ -22,6 +30,7 @@ model User {
   socketId String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  ride Ride[]
 }
 
 model BlackListToken{
@@ -43,4 +52,24 @@ model Captain {
   capacity Int
   ltd Float?
   lng Float?
+  ride Ride[]
+}
+
+model Ride{
+  id Int @id @default(autoincrement())
+  userId Int 
+  captainId Int? 
+  pickup String
+  destination String
+  fare Int
+  status rideStatus @default(pending)
+  duration Int?
+  distance Int?
+  paymentId String?
+  orderId String?
+  signature String?
+  otp String
+// relations definations
+  user User @relation(fields: [userId], references: [id])
+  captain Captain? @relation(fields: [captainId], references: [id])
 }

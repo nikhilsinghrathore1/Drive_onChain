@@ -59,14 +59,6 @@ This endpoint allows users to log in by providing their `email` and `password`. 
 | `password`  | String | User's password (at least 6 characters, including a special character) | Yes      |
 
 
-<!-- three more routes in the map router , get-cordinates , get-distance-time , get-suggestion  -->
-
-<!-- now creating the getdistanceandtime route -->
-
-<!-- for the destinatino and time route i only need the address(pickup address) and destination  -->
-
-<!-- have to create an api key in the env  -->
-
 #### **Success Response**
 - **Status Code**: `200 OK`
 ### **Example Request Body:**
@@ -368,3 +360,39 @@ The `getDistanceAndTime` function is an API endpoint that calculates the distanc
 
 ```
 ```
+
+## **ENDPOINT getSuggestion**
+
+## Description
+The `getSuggestion` function handles requests to fetch location suggestions based on user input. It validates the incoming request and returns a list of suggestions or an error message.
+
+## Endpoint
+`GET /getSuggestion`
+
+## Request Parameters
+
+### Query Parameters
+- **input** (string, required): The user input for which location suggestions are to be fetched.
+
+## Response
+
+### Success Response
+- **Status Code**: 200 OK
+- **Body**:
+  ```json
+  [
+    {
+      "suggestion": "Location 1"
+    },
+    {
+      "suggestion": "Location 2"
+    }
+  ]
+ ```
+ ```
+
+ 
+
+ <!-- done with the map api but can't check it so ig i have to start making the next thing  -->
+
+ <!-- ig i have to start by making the ride schema  -->

@@ -59,7 +59,13 @@ This endpoint allows users to log in by providing their `email` and `password`. 
 | `password`  | String | User's password (at least 6 characters, including a special character) | Yes      |
 
 
+<!-- three more routes in the map router , get-cordinates , get-distance-time , get-suggestion  -->
 
+<!-- now creating the getdistanceandtime route -->
+
+<!-- for the destinatino and time route i only need the address(pickup address) and destination  -->
+
+<!-- have to create an api key in the env  -->
 
 #### **Success Response**
 - **Status Code**: `200 OK`
@@ -306,3 +312,59 @@ The `logoutCaptain` function is an Express.js controller that handles the logout
 {
   "msg": "logout"
 }
+
+```
+
+## **ENDPOINT getCordinate**
+
+## Description
+The `getCordinate` function is an API endpoint that retrieves geographical coordinates (latitude and longitude) for a given address.
+
+---
+
+## Endpoint
+
+**URL:** `/getCordinate`  
+**Method:** `GET`  
+**Content-Type:** `application/json`
+
+---
+
+## Request
+
+### Query Parameters:
+| Parameter | Type   | Required | Description                 |
+|-----------|--------|----------|-----------------------------|
+| `address` | string | Yes      | The address to fetch coordinates for. |
+```
+
+```
+
+
+
+
+## ENDPOINT **getDistanceAndTime**
+
+## Description
+The `getDistanceAndTime` function is an API endpoint that calculates the distance and estimated travel time between two locations.
+
+---
+
+## Endpoint
+
+**URL:** `/getDistanceAndTime`  
+**Method:** `GET`  
+**Content-Type:** `application/json`
+
+---
+
+## Request
+
+### Query Parameters:
+| Parameter      | Type   | Required | Description                             |
+|----------------|--------|----------|-----------------------------------------|
+| `address`      | string | Yes      | The starting address or location.       |
+| `destination`  | string | Yes      | The destination address or location.    |
+
+```
+```

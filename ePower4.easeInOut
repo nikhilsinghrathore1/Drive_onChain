@@ -1,0 +1,95 @@
+[33mcommit 8fb3ea1af40ad876d988b4ce8b6ccc12c957bb0e[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: nikhilsinghrathore1 <111992033+nikhilsinghrathore1@users.noreply.github.com>
+Date:   Wed Dec 18 18:38:18 2024 +0530
+
+    captain ui done
+
+[33mcommit 64e6ab34b29b23c8fed1ca73398f7374652fe17b[m
+Author: nikhilsinghrathore1 <111992033+nikhilsinghrathore1@users.noreply.github.com>
+Date:   Wed Dec 18 18:30:49 2024 +0530
+
+    finished captain ui
+
+[33mcommit f7a4ab9e712692e303c1a0dffeed65f44537e368[m
+Author: nikhilsinghrathore1 <111992033+nikhilsinghrathore1@users.noreply.github.com>
+Date:   Wed Dec 18 10:08:08 2024 +0530
+
+    user ui completed
+
+[33mcommit cf37da351030c9fd62c9930c2365041791e2ac42[m
+Author: nikhilsinghrathore1 <111992033+nikhilsinghrathore1@users.noreply.github.com>
+Date:   Wed Dec 18 09:43:03 2024 +0530
+
+    tyscript done
+
+[33mcommit 3657751b22886728c95dfab5f3025391290386eb[m
+Author: nikhilsinghrathore1 <111992033+nikhilsinghrathore1@users.noreply.github.com>
+Date:   Tue Dec 17 11:04:26 2024 +0530
+
+    updated readme
+
+[33mcommit 9080c3a15ce17dc5202a80e716fdafdce5b4b8ce[m
+Author: nikhilsinghrathore1 <111992033+nikhilsinghrathore1@users.noreply.github.com>
+Date:   Tue Dec 17 10:58:53 2024 +0530
+
+    done with user landing page
+
+[33mcommit 955eb4c0d703444758be14566c1502feadd79ad2[m
+Author: nikhilsinghrathore1 <111992033+nikhilsinghrathore1@users.noreply.github.com>
+Date:   Mon Dec 16 10:47:20 2024 +0530
+
+    user auth done
+
+[33mcommit cc967f9193235b57548fc348c20272e9ae0fdf68[m
+Author: nikhilsinghrathore1 <111992033+nikhilsinghrathore1@users.noreply.github.com>
+Date:   Mon Dec 16 10:16:21 2024 +0530
+
+    added security
+
+[33mcommit bddc94fa9c9bebeac801adfa18115eedc1d5dc63[m
+Author: nikhilsinghrathore1 <111992033+nikhilsinghrathore1@users.noreply.github.com>
+Date:   Sun Dec 15 13:01:34 2024 +0530
+
+    frontend integration
+
+[33mcommit 3ad420d616f75c729f0ffc6e182e66725e385a3a[m
+Author: nikhilsinghrathore1 <111992033+nikhilsinghrathore1@users.noreply.github.com>
+Date:   Sat Dec 14 20:50:56 2024 +0530
+
+    started frontend
+
+[33mcommit 869d5c6c18ea9e0a12098a2d0a2013287ab173fd[m
+Author: nikhilsinghrathore1 <111992033+nikhilsinghrathore1@users.noreply.github.com>
+Date:   Sat Dec 14 14:01:09 2024 +0530
+
+    created captian routes
+
+[33mcommit c3705d61641bdff159ae4371bdf9ffba6937864b[m
+Author: nikhilsinghrathore1 <111992033+nikhilsinghrathore1@users.noreply.github.com>
+Date:   Fri Dec 13 10:26:38 2024 +0530
+
+    updated README
+
+[33mcommit 2782fad94b5ef552586a0b0a727f9374cff6889e[m
+Author: nikhilsinghrathore1 <111992033+nikhilsinghrathore1@users.noreply.github.com>
+Date:   Fri Dec 13 10:17:52 2024 +0530
+
+    complete user backend
+
+[33mcommit 253591bdc1ac7449194b776ce3e623a3e2b17c48[m
+Author: nikhilsinghrathore1 <111992033+nikhilsinghrathore1@users.noreply.github.com>
+Date:   Thu Dec 12 14:29:42 2024 +0530
+
+    login endpoint
+
+[33mcommit da70ebbeb8ab9916566f2f056ccd3929badf2b9a[m
+Author: nikhilsinghrathore1 <111992033+nikhilsinghrathore1@users.noreply.github.com>
+Date:   Thu Dec 12 13:08:06 2024 +0530
+
+    register endPoint
+
+[33mcommit 5fcac291a8db4a05e5338bb0fcbdd3e6be32b1b5[m
+Author: nikhilsinghrathore1 <111992033+nikhilsinghrathore1@users.noreply.github.com>
+Date:   Tue Dec 10 20:29:47 2024 +0530
+
+    initialising backend

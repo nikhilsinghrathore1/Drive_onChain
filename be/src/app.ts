@@ -4,6 +4,7 @@ import express ,{Application, Request , Response, urlencoded} from "express";
 import cors from "cors"
 import UserRouter  from "./routes/userRouter";
 import captainRouter from "./routes/captainRouter"
+import mapRouter from "./routes/mapRouter"
 import cookieparser from "cookie-parser"
 const app:Application = express()
 
@@ -25,6 +26,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended : true}))
 app.use("/user",UserRouter)
 app.use("/captain",captainRouter)
+app.use("/map",mapRouter)
 
 
 app.get("/",(req:Request,res:Response)=>{

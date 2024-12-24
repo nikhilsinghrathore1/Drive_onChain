@@ -15,7 +15,7 @@ export const getCordinate = async(req:Request,res:Response)=>{
                const {address} = req.query ;
 
                try{
-
+                              console.log("entered")
                               const location  = await giveCordinates(address as string);
                               res.status(200).json(location)
                               return ;
@@ -39,7 +39,7 @@ export const getDistanceAndTime = async(req:Request,res:Response)=>{
                const {address , destination} = req.query;
                try{
 
-                              const distanceAndTime = giveDistancAndTime(address as string,destination as string )
+                              const distanceAndTime = await giveDistancAndTime(address as string,destination as string )
                               res.status(200).json(distanceAndTime)
                               return ; 
 

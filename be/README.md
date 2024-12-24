@@ -391,8 +391,34 @@ The `getSuggestion` function handles requests to fetch location suggestions base
  ```
  ```
 
- 
+ # `createRide` Function Documentation
 
- <!-- done with the map api but can't check it so ig i have to start making the next thing  -->
+## Overview
+The `createRide` function is responsible for creating a new ride request. It validates the input, calculates the fare, and saves the ride details while ensuring proper error handling and client communication.
 
- <!-- ig i have to start by making the ride schema  -->
+---
+
+## Parameters
+
+| Parameter   | Type      | Description                                                              |
+|-------------|-----------|--------------------------------------------------------------------------|
+| `pickup`    | `string`  | The starting location of the ride.                                       |
+| `destination`| `string` | The destination location of the ride.                                    |
+| `vehical_type`| `string`| The type of vehicle requested.                                           |
+
+---
+
+
+## Responses
+
+### Success
+- **Status**: `200 OK`
+- **Body**:
+  ```json
+  {
+    "ride": {
+      // Ride details
+    }
+  }
+
+  ```

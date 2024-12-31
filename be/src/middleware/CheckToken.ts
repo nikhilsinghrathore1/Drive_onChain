@@ -33,11 +33,8 @@ import { prisma } from "../db/db";
 
 
 export const checkCaptainToken = async(req:Request, res:Response, next:NextFunction)=>{
-               const token = req.cookies.token || req.headers.authorization?.split(" ")[1]
-
+               const token = req.headers.authorization?.split(" ")[1]
                try{
-
-               
 
                if(!token){
                               res.status(400).json({msg:"unAuthorized captain"})
@@ -57,6 +54,7 @@ export const checkCaptainToken = async(req:Request, res:Response, next:NextFunct
                const captain = await prisma.captain.findFirst({where:{
                               id:checking.id
                }})
+
 
                if(!captain){
                               res.status(200).json({msg:"captain does not exists"})

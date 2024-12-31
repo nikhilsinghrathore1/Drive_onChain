@@ -1,16 +1,21 @@
 import axios from 'axios'
-import  { useState , useRef } from 'react'
+import  { useState , useRef  , useEffect , useContext} from 'react'
 import { useNavigate } from 'react-router-dom'
 import logo from "/logo.png"
 import * as React from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { Power4 } from 'gsap/all'
-import { FaChevronDown } from "react-icons/fa6";
+import { FaChevronDown, FaHackerNews } from "react-icons/fa6";
 import LocationSearchPanel from '../components/LocationSearchPanel'
 import ChooseRide from '../components/ChooseRide'
 import ConfirmRide from '../components/ConfirmRide'
 import LookingForCaptian from '../components/LookingForCaptian'
+import { IoFilterCircle } from 'react-icons/io5'
+import { SocketSubscriber } from 'ethers'
+import { SocketContext } from '../context/socketContext'
+import { userDataContext } from '../context/UserContext'
+import { errors } from 'web3'
 
 
 
@@ -19,7 +24,9 @@ import LookingForCaptian from '../components/LookingForCaptian'
 const UserLanding = () => {
   const navigate = useNavigate()
   const [pickup, setpickup] = useState("")
+  const [finalpickup, setfinalpickup] = useState("")
   const [destination, setdestination] = useState("")
+  const [finalDestination, setfinalDestination] = useState('')
   const [panelOpen, setpanelOpen] = useState(false)
   const [chooseRideOpen, setchooseRideOpen] = useState(false)
   const [confirmRideOpen, setconfirmRideOpen] = useState(false)
@@ -29,8 +36,39 @@ const UserLanding = () => {
   const chooseRideref = useRef(null)
   const ConfirmRideref = useRef(null)
   const LookingForCaptainOpenref= useRef(null)
+  const [debouncedPickup, setdebouncedPickup] = useState("")
+  const [debounceddestination, setdebounceddestination] = useState("")
+  const [suggestedPickup, setsuggestedPickup] = useState([])
+  const [suggestedDestination, setsuggestedDestination] = useState([])
+  const [fare, setfare] = useState({})
+  const [finalfare, setfinalfare] = useState("")
+  const [vehical, setvehical] = useState("")
 
 
+
+  useEffect(() => {
+    console.log("entered")
+    const timer = setTimeout(() => {
+        setdebouncedPickup(pickup)
+    }, 500);
+
+    console.log("existed")
+
+    return () => clearTimeout(timer)
+  }, [pickup])
+  
+
+  useEffect(() => {
+    console.log("entered")
+    const timer = setTimeout(() => {
+      setdebounceddestination(destination)
+    }, 500);
+
+    console.log("existed")
+
+    return () => clearTimeout(timer)
+  }, [destination])
+  
 
 
 
@@ -52,16 +90,95 @@ const handlelogout = async() =>{
     
   }
 }
-const handleSubmit = async(e:React.FormEvent) =>{
-  e.preventDefault()
 
-  const payload = {
-    pickup : pickup,
-    destination:destination
+const socketcontext = useContext(SocketContext)
+const userContext = useContext(userDataContext)
+if(!socketcontext){
+  throw new Error("some error occured")
+}
+if(!userContext){
+  throw new Error("some error occured")
+}
+
+const {userdata} = userContext
+const {socket} = socketcontext
+
+
+
+
+
+
+
+useEffect(()=>{
+  if(userdata){
+
+    console.log(userdata.id)
+    console.log("emited")
+    socket.emit("join" , {userId : userdata?.id ,  userType:"user"})
+    console.log("done with emmision ")
   }
-  setpickup("")
-  setdestination("")
-} 
+},[userdata])
+
+   
+
+  useEffect(() => {
+    if(debouncedPickup){
+
+    
+    console.log(debouncedPickup)
+    const handleSubmit = async() =>{
+      const token = localStorage.getItem("token")
+      console.log(token)
+      const payload = {
+        pickup : pickup,
+        destination:destination
+      }
+    
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}map/get-suggestion?input=${debouncedPickup}` ,{
+        headers:{
+          Authorization:`bearer ${token}`
+        }
+      })
+    
+      console.log(response.data)
+      // setpickup("")
+      // setdestination("")
+      setsuggestedPickup(response.data)
+
+    }
+    handleSubmit()
+  }
+  }, [debouncedPickup])
+  
+  useEffect(() => {
+    if(debounceddestination){
+
+    
+    console.log(debounceddestination)
+    const handleSubmit = async() =>{
+      const token = localStorage.getItem("token")
+      console.log(token)
+      const payload = {
+        pickup : pickup,
+        destination:destination
+      }
+    
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}map/get-suggestion?input=${debounceddestination}` ,{
+        headers:{
+          Authorization:`bearer ${token}`
+        }
+      })
+    
+      console.log(response.data)
+      setsuggestedDestination(response.data)
+      // setpickup("")
+      // setdestination("")
+
+    }
+    handleSubmit()
+  }
+  }, [debounceddestination])
+  
 
 useGSAP(()=>{
   if(panelOpen){
@@ -128,6 +245,22 @@ useGSAP(()=>{
   }
 },[confirmRideOpen])
 
+const findRide = async() =>{
+  const token = localStorage.getItem("token")
+  const payload = {
+    pickup,
+    destination
+  }
+  console.log(payload)
+  const response = await axios.get(`${import.meta.env.VITE_BASE_URL}map/get-fare?origin=${pickup}&destination=${destination}`,{
+    headers:{
+      Authorization :`bearer ${token}`
+    }
+  })
+  setfare(response.data)
+}
+
+
 useGSAP(()=>{
   if(LookingForCaptainOpen){
     gsap.to(LookingForCaptainOpenref.current,{
@@ -145,7 +278,6 @@ useGSAP(()=>{
 },[LookingForCaptainOpen])
 
 
-// one small thing left to do i have to create a riding page that user will be redirected when the ride is started the structure is already done now just have to make a page for it 
 
 
   return (
@@ -173,16 +305,16 @@ useGSAP(()=>{
             </div>
 
             <h2 className='text-4xl  font-semibold mb-4'>Find a trip</h2>
-            <input onClick={()=>setpanelOpen(true)} value={pickup} onChange={(e)=>setpickup( e.target.value)} className='bg-[#EEEEEE] rounded-lg font-semibold text-lg outline-orange-400  py-2 pr-3 pl-14 w-full 'type="text" placeholder='Enter pick-up location' />
+            <input onClick={()=>setpanelOpen(true)} value={pickup} onChange={(e)=>setpickup( e.target.value) } className='bg-[#EEEEEE] rounded-lg font-semibold text-lg outline-orange-400  py-2 pr-3 pl-14 w-full 'type="text" placeholder='Enter pick-up location' />
             <input onClick={()=>setpanelOpen(true)} value={destination} onChange={(e)=>setdestination(e.target.value)} className='bg-[#EEEEEE] rounded-lg font-semibold text-lg pl-14 pr-3 outline-orange-400  py-2 w-full ' type="text" placeholder='Enter your destination' />
-
             <div className='h-16 w-1 bg-black absolute top-[56%] rounded-full -translate-y-1/2 left-10'></div>
+            <div onClick={()=>(setpanelOpen(false), setchooseRideOpen(true), findRide())} className='bg-black rounded-lg font-semibold text-lg text-center mt-10 text-white   outline-orange-400  py-2 w-full '>find Ride</div>
       </div>
 
 
 {/* this is absolute pannel that is hidden below only appears when user clicks on location or destination prompts  */}
       <div ref={panelRef} className='w-full h-[0%]  '>
-        <LocationSearchPanel func1 = {setchooseRideOpen} func2 = {setpanelOpen} />
+        <LocationSearchPanel func1 = {setchooseRideOpen} func2 = {setpanelOpen} finalPickup ={setpickup} pickUPsuggestion={suggestedPickup} finalDestination={setdestination} destinationsuggestion={suggestedDestination} />
       </div>
 
     </div>
@@ -190,18 +322,18 @@ useGSAP(()=>{
     {/* this is the absolute div that is hidden below , only appears when user selects an Location for now it is hard coded but ig i have to maintain a state for pickup and drop off destination in this div user will choose the vehical type */}
 
       <div ref={chooseRideref} className='w-full absolute translate-y-full bottom-5 left-0'>
-          <ChooseRide func1={setchooseRideOpen} func2 ={setconfirmRideOpen}/>
+          <ChooseRide setvehical={setvehical} finalfare={setfinalfare} fare={fare} func1={setchooseRideOpen} func2 ={setconfirmRideOpen}/>
       </div>
 
 
       {/* this is an absolute div that is hidden below only appears when user select and vehical it gives them clear details about thier trip and prompts them to confirm thier trip  */}
       <div ref={ConfirmRideref}  className='w-full absolute translate-y-full  bottom-5 left-0'>
-        <ConfirmRide func1 ={setconfirmRideOpen} func2={setLookingForCaptainOpen}/>
+        <ConfirmRide vehical={vehical}  pickup={pickup} destination={destination} fare={finalfare} func1 ={setconfirmRideOpen} func2={setLookingForCaptainOpen}/>
       </div>
 
       {/* this is an absolute div that is hidden below only appears when user confirms his ride and this page is a waiting screen it is shown until a captain selects this trip  */}
       <div  ref={LookingForCaptainOpenref} className='w-full absolute translate-y-full   bottom-5 left-0'>
-        <LookingForCaptian/>
+        <LookingForCaptian pickup={pickup} destination={destination} fare={finalfare}/>
       </div>
 
 

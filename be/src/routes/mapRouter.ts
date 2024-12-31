@@ -1,7 +1,7 @@
 import express from "express"
 import {query}from "express-validator"
 import { checkToken } from "../middleware/CheckToken"
-import { getCordinate, getDistanceAndTime, getSuggestion } from "../controllers/mapController"
+import { getCordinate, getDistanceAndTime, getSuggestion, returnFare } from "../controllers/mapController"
 
 const router = express.Router()
 
@@ -21,5 +21,10 @@ router.get("/get-suggestion",[
                query("input").isString().isLength({min:1}).withMessage("the suggestion should be atleast 1 character long")
 ] , checkToken , getSuggestion)
 
+
+router.get("/get-fare",[
+               query("origin").isString().withMessage("the origin should be string"),
+               query("destination").isString().withMessage("the destination should be string")
+],checkToken ,returnFare)
 
 export default router

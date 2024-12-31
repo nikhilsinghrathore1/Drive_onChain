@@ -8,10 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSuggestion = exports.getDistanceAndTime = exports.getCordinate = void 0;
+exports.returnFare = exports.getSuggestion = exports.getDistanceAndTime = exports.getCordinate = void 0;
 const express_validator_1 = require("express-validator");
 const mapServices_1 = require("../services/mapServices");
+const fare_1 = __importDefault(require("../utils/fare"));
 // this is the route to get the cordinates
 const getCordinate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const error = (0, express_validator_1.validationResult)(req);
@@ -73,3 +77,24 @@ const getSuggestion = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getSuggestion = getSuggestion;
+const returnFare = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const error = (0, express_validator_1.validationResult)(req);
+    if (!error.isEmpty()) {
+        res.status(400).json({ error: error.array() });
+        return;
+    }
+    try {
+        const { origin, destination } = req.query;
+        if (typeof origin === 'string' && typeof destination === 'string') {
+            const fare = yield (0, fare_1.default)(origin, destination);
+            res.status(200).json(fare);
+        }
+        else {
+            res.status(400).json({ msg: "invalid origin or destination" });
+        }
+    }
+    catch (err) {
+        res.status(400).json({ msg: err });
+    }
+});
+exports.returnFare = returnFare;

@@ -28,8 +28,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const http = __importStar(require("http"));
 const app_1 = __importDefault(require("./app"));
+const socket_1 = require("./socket");
 const port = process.env.PORT || 3000;
 const server = http.createServer(app_1.default);
+(0, socket_1.initialiseSocketServer)(server);
 server.listen(port, () => {
     console.log(`server is running on port ${port}`);
 });

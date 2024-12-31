@@ -43,7 +43,7 @@ const checkToken = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
 exports.checkToken = checkToken;
 const checkCaptainToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    const token = req.cookies.token || ((_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(" ")[1]);
+    const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(" ")[1];
     try {
         if (!token) {
             res.status(400).json({ msg: "unAuthorized captain" });

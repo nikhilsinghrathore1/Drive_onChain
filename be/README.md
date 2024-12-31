@@ -422,3 +422,26 @@ The `createRide` function is responsible for creating a new ride request. It val
   }
 
   ```
+
+  ### **Function: `listOfFare`**
+
+Handles the retrieval of travel fares based on the provided pickup and destination locations.
+
+---
+
+#### **Endpoint**
+- **Method**: `POST`
+- **URL**: `/api/fare`
+
+---
+
+#### **Request**
+- **Headers**:
+  - `Content-Type`: `application/json`
+
+- **Body**:
+  ```json
+  {
+      "pickup": "string",
+      "destination": "string"
+  }

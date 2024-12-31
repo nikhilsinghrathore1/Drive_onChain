@@ -35,7 +35,8 @@ export const createCaptain = async(req:Request,res:Response) =>{
                               return
                }
 
-               const token = createToken(capacity.id)
+               const token = createToken(captain.id)
+               res.cookie("token",token)
 
                if(!token){
                               res.status(400).json({msg:"there was some issue while generating the captian auth token"})
@@ -83,7 +84,13 @@ export const loginCaptain = async(req:Request , res:Response)=>{
 // captain get profile route
 
 export const getCaptainProfile =async (req:Request,res:Response) => {
-               res.status(200).json({captain:req.captain})
+               if(req.captain){
+                              res.status(200).json({captain:req.captain})
+                              return ; 
+               }
+               else{
+                              res.status(400).json({msg:"captain does not exists"})
+               }
 }
 
 // captain logout route 

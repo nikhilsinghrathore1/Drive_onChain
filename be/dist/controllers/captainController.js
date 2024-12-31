@@ -36,7 +36,8 @@ const createCaptain = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(400).json({ msg: "there was some issue while creating the captain" });
         return;
     }
-    const token = (0, genToken_1.createToken)(capacity.id);
+    const token = (0, genToken_1.createToken)(captain.id);
+    res.cookie("token", token);
     if (!token) {
         res.status(400).json({ msg: "there was some issue while generating the captian auth token" });
         return;
@@ -71,7 +72,13 @@ const loginCaptain = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 exports.loginCaptain = loginCaptain;
 // captain get profile route
 const getCaptainProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.status(200).json({ captain: req.captain });
+    if (req.captain) {
+        res.status(200).json({ captain: req.captain });
+        return;
+    }
+    else {
+        res.status(400).json({ msg: "captain does not exists" });
+    }
 });
 exports.getCaptainProfile = getCaptainProfile;
 // captain logout route 

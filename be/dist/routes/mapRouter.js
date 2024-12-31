@@ -18,4 +18,8 @@ router.get("/get-distance-time", [
 router.get("/get-suggestion", [
     (0, express_validator_1.query)("input").isString().isLength({ min: 1 }).withMessage("the suggestion should be atleast 1 character long")
 ], CheckToken_1.checkToken, mapController_1.getSuggestion);
+router.get("/get-fare", [
+    (0, express_validator_1.query)("origin").isString().withMessage("the origin should be string"),
+    (0, express_validator_1.query)("destination").isString().withMessage("the destination should be string")
+], CheckToken_1.checkToken, mapController_1.returnFare);
 exports.default = router;

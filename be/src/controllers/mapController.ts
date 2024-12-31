@@ -2,6 +2,8 @@ import { query, validationResult } from "express-validator";
 import { Request,Response } from "express";
 import { getlocationSuggestion, giveCordinates, giveDistancAndTime } from "../services/mapServices";
 import router from "../routes/userRouter";
+import { responseEncoding } from "axios";
+import travelFare from "../utils/fare";
 
 // this is the route to get the cordinates
 
@@ -74,3 +76,24 @@ export const getSuggestion = async(req:Request,res:Response)=>{
                }
 }
 
+
+export const returnFare =async(req:Request,res:Response)=>{
+               const error = validationResult(req)
+               if(!error.isEmpty()){
+                              res.status(400).json({error:error.array()})
+                              return 
+               }
+               try{
+                              const {origin , destination} = req.query
+                              if (typeof origin === 'string' && typeof destination === 'string') {
+                                             const fare = await travelFare(origin, destination);
+                                             res.status(200).json(fare)
+                              }
+                              else{
+                                             res.status(400).json({msg:"invalid origin or destination"})
+                              }
+               }
+               catch(err){
+                              res.status(400).json({msg:err})
+               }
+}

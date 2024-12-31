@@ -27,12 +27,13 @@ const handleSubmit = async(e:React.FromEvent)=>{
               capacity:capacity,              
             }
 
-
-
             const response = await axios.post(`${import.meta.env.VITE_BASE_URL}captain/register`,payload)
 
             if(response){
-              localStorage.setItem("token" , response.data.token) 
+              localStorage.clear()
+             localStorage.setItem("token" , response.data.token) 
+            const token = localStorage.getItem("token") 
+              console.log(token)
               navigate("/captain-landing")        
             }
 
@@ -45,7 +46,6 @@ const handleSubmit = async(e:React.FromEvent)=>{
             setpassword("")
 
 }
-
 
   return (
     <div className='w-full h-screen  flex flex-col text-[#353935] relative px-5 py-8  '>

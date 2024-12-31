@@ -40,3 +40,18 @@ DrAn/
 - cd DrAn
 
 
+
+
+
+
+<!-- have to put the loading screen where it is neccesary  -->
+
+<!-- first have to integrate the get suggestion api  -->
+
+
+<!-- okay one more thing have to specify the proper routes in the backend readME file .  -->
+
+<!-- have to do the error handling proper -->
+<!-- first implement the suggestion api -->
+
+<!-- also have to update the readME file  -->

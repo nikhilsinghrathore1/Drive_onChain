@@ -20,9 +20,9 @@ const {setcaptainData} = context ;
 
   const navigate = useNavigate()
 
-  const token = localStorage.getItem("token")
-
+  
   useEffect(()=>{
+    const token = localStorage.getItem("token")
       if(!token){
         navigate("/login-captain")
         return ;
@@ -33,9 +33,15 @@ const {setcaptainData} = context ;
           Authorization:`bearer ${token}`
         }
       }).then((data)=>{
-        console.log(data.data.captain)
-        setcaptainData(data.data.captain)
-        return ;
+
+        if(data.data.captain){
+          setcaptainData(data.data.captain)
+          return ;
+        }
+        else{
+          navigate("/login-captain")
+          return;
+        }
 
       }).catch((err)=>{
         console.log(err)

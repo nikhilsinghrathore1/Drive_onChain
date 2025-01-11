@@ -1,85 +1,164 @@
-import React, { useRef, useState, useEffect, useContext } from 'react'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-import logo from "/logo.png"
-import { FaRegClock } from "react-icons/fa";
-import { LuNotebook } from "react-icons/lu";
-import { IoSpeedometerOutline } from "react-icons/io5";
-import NewRidePopup from '../components/NewRidePopup'
-import gsap from 'gsap'
-import { Power4 } from 'gsap/all'
+import React, { useRef, useState, useEffect, useContext } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import logo from '/logo.png';
+import { FaRegClock } from 'react-icons/fa';
+import { LuNotebook } from 'react-icons/lu';
+import { IoSpeedometerOutline } from 'react-icons/io5';
+import NewRidePopup from '../components/NewRidePopup';
+import gsap from 'gsap';
+import { Power4 } from 'gsap/all';
 import CaptainRideConfirmScreen from '../components/CaptainRideConfirmScreen';
 import { captainDataContext } from '../context/CaptainContext';
+import { SocketContext } from '../context/socketContext';
 
 const CaptainLanding = () => {
-  const popupRef = useRef(null)
-  const confirmRideRef = useRef(null)
+  const popupRef = useRef(null);
+  const confirmRideRef = useRef(null);
 
-  const [popPanelOpen, setPopPanelOpen] = useState(false)
+  const [popPanelOpen, setPopPanelOpen] = useState(false);
+  const [ride, setRide] = useState(null);
+  const [confirmRide, setConfirmRide] = useState(false);
 
-    const context = useContext(captainDataContext)
-    
- if(!context){
-  throw new Error("the captain data context in not provided ")
- }
+  const context = useContext(captainDataContext);
+  const socketContext = useContext(SocketContext);
 
+  if (!context) {
+    throw new Error('CaptainDataContext is not provided.');
+  }
+  if (!socketContext) {
+    throw new Error('SocketContext is not provided.');
+  }
+
+  const { captainData } = context;
+  const { socket } = socketContext;
+
+  const captainDataRef = useRef(captainData);
+
+  useEffect(() => {
+    captainDataRef.current = captainData;
+  }, [captainData]);
+
+  useEffect(() => {
+    if (captainData) {
+      socket.emit('join', {
+        userId: captainData?.id,
+        userType: 'captain',
+      });
+
+      const updateCaptainLocation = () => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              socket.emit('update-captain-location', {
+                userId: captainDataRef.current?.id,
+                location: {
+                  ltd: position.coords.latitude,
+                  lng: position.coords.longitude,
+                },
+              });
+            },
+            (error) => {
+              console.error('Error fetching location:', error);
+            }
+          );
+        }
+      };
+
+      const intervalId = setInterval(updateCaptainLocation, 10000);
+      updateCaptainLocation();
+
+      return () => clearInterval(intervalId);
+    }
+  }, [captainData, socket]);
+
+  useEffect(() => {
+    const handleNewRide = (data) => {
+      setRide(data[0]);
+      setPopPanelOpen(true);
+    };
+
+    socket.on('new-ride', handleNewRide);
+
+    socket.on("start-ride",ride=>{
+      console.log(ride)
+      console.log("correct otp entered ")
+      navigate("/captain-riding")
+    })
   
-const {captainData} = context; 
+  }, [socket]);
 
-  
-
-  const [confirmRide , setconfirmRide] = useState(false)
-
-
-  const navigate = useNavigate()
-
-
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem('token');
     try {
       await axios.get(`${import.meta.env.VITE_BASE_URL}captain/logout`, {
         headers: {
-          Authorization: `bearer ${token}`
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      localStorage.removeItem('token');
+      navigate('/login-captain');
+    } catch (err) {
+      console.error('Logout error:', err);
+    }
+  };
+
+  const confirmRideCaptain = async () => {
+    console.log("this is the ride data" , ride.id)
+    if (!ride?.id) {
+      console.error('Ride ID is missing');
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}ride/confirm-ride`,
+        {
+          rideId: ride.id,
+          captain: captainData,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
+      console.log('Ride confirmed:', response.data);
+    } catch (err) {
+      console.error('Error confirming the ride:', err.response?.data || err.message);
+    }
+  };
+
+  const startRide = async(otp:string) =>{
+    try{
+      console.log(`${import.meta.env.VITE_BASE_URL}ride/start-ride?rideId=${ride?.id}&otp=${otp}`)
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}ride/start-ride?rideId=${ride?.id}&otp=${otp}`,{
+        headers:{
+          Authorization: `bearer ${localStorage.getItem("token")}`
         }
       })
-      localStorage.removeItem("token")
-      navigate("/login-captain")
-    } catch (err) {
+      console.log(response)
+    }catch(err){
       console.log(err)
     }
   }
 
+ 
   useEffect(() => {
-    if (popPanelOpen) {
-      gsap.to(popupRef.current, {
-        y: "0%", 
-        duration: 0.5,
-        ease: Power4.easeInOut
-      })
-    } else {
-      gsap.to(popupRef.current, {
-        y: "100%", 
-        duration: 1,
-        ease: Power4.easeInOut
-      })
-    }
+    gsap.to(popupRef.current, {
+      y: popPanelOpen ? '0%' : '100%',
+      duration: 0.5,
+      ease: Power4.easeInOut,
+    });
 
-    if(confirmRide){
-      gsap.to(confirmRideRef.current , {
-          y:"0%", 
-          duration:1,
-          ease:Power4.easeInOut
-      })
-    }else{
-      gsap.to(confirmRideRef.current , {
-          y:"100%", 
-          duration:1,
-          ease:Power4.easeInOut
-      })
-
-    }
-  }, [popPanelOpen , confirmRide])
+    gsap.to(confirmRideRef.current, {
+      y: confirmRide ? '0%' : '100%',
+      duration: 1,
+      ease: Power4.easeInOut,
+    });
+  }, [popPanelOpen, confirmRide]);
 
   return (
     <div className='w-full h-screen relative overflow-hidden'>
@@ -138,10 +217,10 @@ const {captainData} = context;
 
       {/* Popup Panel */}
       <div ref={popupRef} className='w-full absolute translate-y-full bottom-5 left-0'>
-        <NewRidePopup func1={setPopPanelOpen} func2={setconfirmRide} />
+        <NewRidePopup func1={setPopPanelOpen} func2={setConfirmRide} confirm={confirmRideCaptain} />
       </div>
       <div ref={confirmRideRef} className='w-full absolute translate-y-full  h-screen bottom-5 left-0 '>
-        <CaptainRideConfirmScreen func1 = {setPopPanelOpen} func2={setconfirmRide}  />
+        <CaptainRideConfirmScreen func1 = {setPopPanelOpen} func2={setConfirmRide}  start={startRide}/>
       </div>
     </div>
   )

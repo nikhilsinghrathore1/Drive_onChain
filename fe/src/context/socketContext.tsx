@@ -32,6 +32,7 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
             socket.off("connect");
             socket.off("disconnect");
         };
+        
     }, []);
 
     return (

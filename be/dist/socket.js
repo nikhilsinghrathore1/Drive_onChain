@@ -45,19 +45,34 @@ const initialiseSocketServer = (server) => {
                 console.error("Error in 'join' event:", error);
             }
         }));
-        socket.on("upadate-captain-location", (data) => __awaiter(void 0, void 0, void 0, function* () {
+        socket.on("update-captain-location", (data) => __awaiter(void 0, void 0, void 0, function* () {
+            console.log("Entered in the socket location");
             const { userId, location } = data;
-            if (!location || location.ltd || location.lng) {
-                socket.emit("error", { msg: "all fields are required" });
+            console.log("This is user ID:", userId);
+            console.log("This is location details:", location);
+            if (!userId) {
+                socket.emit("error", { msg: "User ID is required" });
                 return;
             }
-            yield db_1.prisma.captain.update({
-                where: { id: userId },
-                data: {
-                    ltd: location.ltd,
-                    lng: location.lng
-                }
-            });
+            if (!location || typeof location.ltd !== "number" || typeof location.lng !== "number") {
+                socket.emit("error", { msg: "Invalid location coordinates" });
+                return;
+            }
+            try {
+                yield db_1.prisma.captain.update({
+                    where: { id: userId },
+                    data: {
+                        ltd: location.ltd,
+                        lng: location.lng,
+                    },
+                });
+                console.log("Captain location updated successfully");
+                socket.emit("location-updated", { msg: "Location updated successfully" });
+            }
+            catch (error) {
+                console.error("Error updating captain location:", error);
+                socket.emit("error", { msg: "Failed to update location" });
+            }
         }));
         socket.on("disconnect", () => {
             console.log(`Socket disconnected: ${socket.id}`);
@@ -66,7 +81,6 @@ const initialiseSocketServer = (server) => {
 };
 exports.initialiseSocketServer = initialiseSocketServer;
 const sendMessageToSocketId = (socketId, messageObject) => {
-    console.log("this is the message object", messageObject);
     if (io) {
         io.to(socketId).emit(messageObject.event, messageObject.data);
     }

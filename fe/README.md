@@ -1,16 +1,11 @@
-<!-- fuck it so bad useeffect returns a funtion idot -->
-<!-- so much work -->
+<!-- peace out -->
 
-<!-- now how to do the same for the destination thingy -->
+<!-- the captains location is now updating now , next thing ig i have to send the signal whenever the ride is created and have to send it to the riders who are near by let's do it tomorrow only  -->
 
-<!-- for this page ig i just have to show the pickup , destination and the final fare and then i just have to create the ride   -->
+<!-- okay so i am getting the location of the captain and what do i need to do is when i create a ride i need all the driver who are present near that location -->
 
-<!-- now i just have to confirm the ride and then just create it in the backend  -->
+<!-- blockchain with iot blockchain with edge computing you know about metaverse , metaverse is like a gta game where all the players are real time connected when two players come close thier video and audio starts there will be vehicals in the game when the player moves the vehical the real vehical in real world will also move  -->
 
-<!-- okay all set now let's start with the rider thingy -->
+<!-- physical mario  -->
 
-<!-- okay so now in the captain landing i need to stop the  -->
-
-
-
-<!-- okay so somehow the things are now working now good thing it is working otherwise i would have been toast lets's do some more  -->
+<!-- scan to pay blockchain wrist band  -->

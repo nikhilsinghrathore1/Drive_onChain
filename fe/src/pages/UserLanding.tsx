@@ -11,8 +11,6 @@ import LocationSearchPanel from '../components/LocationSearchPanel'
 import ChooseRide from '../components/ChooseRide'
 import ConfirmRide from '../components/ConfirmRide'
 import LookingForCaptian from '../components/LookingForCaptian'
-import { IoFilterCircle } from 'react-icons/io5'
-import { SocketSubscriber } from 'ethers'
 import { SocketContext } from '../context/socketContext'
 import { userDataContext } from '../context/UserContext'
 import { errors } from 'web3'
@@ -178,7 +176,11 @@ useEffect(()=>{
     handleSubmit()
   }
   }, [debounceddestination])
-  
+
+  socket.on("ride-confirmed" ,ride=>{
+    console.log("ride-confirmed")
+    navigate("/riding")
+  })
 
 useGSAP(()=>{
   if(panelOpen){

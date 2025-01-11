@@ -8,9 +8,10 @@ import { useState } from "react";
 interface val {
    func1 : (value:boolean) =>void,
    func2 : (value:boolean) =>void,
+   start:(otp:string) =>void
 }
 
-const CaptainRideConfirmScreen:React.FC<val> = ({func1,func2}) => {
+const CaptainRideConfirmScreen:React.FC<val> = ({func1,func2 , start}) => {
 
    const [otp , setotp] = useState("")
 
@@ -72,11 +73,11 @@ const CaptainRideConfirmScreen:React.FC<val> = ({func1,func2}) => {
                  </div> 
 
    
-                  <Link to="/captain-riding"  className=" w-full rounded-lg active:bg-green-500 text-2xl mt-2 font-medium py-3 bg-green-400 flex justify-center items-center text-white">
+                  <div onClick={()=>start(otp)} className=" w-full rounded-lg active:bg-green-500 text-2xl mt-2 font-medium py-3 bg-green-400 flex justify-center items-center text-white">
    
                    Accept
    
-                  </Link>
+                  </div>
    
                   <div onClick={()=>(func1(false) , func2(false))} className=" w-full rounded-lg active:bg-red-400 text-2xl mt-2 font-medium py-3 bg-red-500 text-white flex justify-center items-center ">
    

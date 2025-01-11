@@ -1,6 +1,20 @@
+import { useContext } from "react"
 import UserPayment from "../components/UserPayment"
+import { SocketContext } from "../context/socketContext"
+
+
 
 const UserRiding = () => {
+
+const socketContext = useContext(SocketContext)
+if(!socketContext){
+  throw new Error("some error occured")
+}
+const {socket} = socketContext
+
+socket.on("start-ride" , ride=>{
+  console.log("ride-started")
+})
   return (
     <div className='w-full h-screen overflow-hidden relative'>
                <div className='w-full h-full'>

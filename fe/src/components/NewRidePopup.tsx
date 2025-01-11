@@ -5,9 +5,10 @@ import { RiMoneyRupeeCircleFill } from 'react-icons/ri'
 interface val {
   func1:(value:boolean) =>void,
   func2:(value:boolean) =>void,
+  confirm : () =>void
 }
 
-const NewRidePopup:React.FC<val> = ({func1 , func2}) => {
+const NewRidePopup:React.FC<val> = ({func1 , func2 , confirm}) => {
   return (
    <div className='w-full  h-fit pt-5 relative rounded-2xl bg-white flex flex-col px-2 '>
                   <h1 className="text-[2rem] mb-10 px-2 font-bold ">New Ride Available!</h1>
@@ -39,7 +40,7 @@ const NewRidePopup:React.FC<val> = ({func1 , func2}) => {
 
                   <div className='w-full px-5 mb-7 mt-5 flex items-center justify-between'>                         
    
-                  <div onClick={()=>func2(true)}  className=" px-10 rounded-lg active:bg-green-500 text-2xl mt-4 font-medium py-3 bg-green-400 flex justify-center items-center text-white">
+                  <div onClick={()=>(func2(true) , confirm())}  className=" px-10 rounded-lg active:bg-green-500 text-2xl mt-4 font-medium py-3 bg-green-400 flex justify-center items-center text-white">
    
                    Accept
    
